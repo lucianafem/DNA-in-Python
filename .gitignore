@@ -61,7 +61,7 @@ def translate(seq):
     
 newseq= translate(seq)
 
-print(newseq==codon) #lembre-se a posicao 320 onde comeca a leitura eh a 321 em Python pois, comeca em 0
+print(newseq==codon) # remember position 320 where you start reading is 321 in Python because it starts at 0
 
 # --------------------------------------------------------------------------------------------------
 # blood
