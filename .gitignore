@@ -1,129 +1,128 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# https://www.ncbi.nlm.nih.gov/nuccore/XM_011242420.3
+# see CDS where the 321..1580 sequence begins to be read
+# https://www.ncbi.nlm.nih.gov/nuccore/XM_011242420.3?report=fasta     (press FASTA) to copy the seq without number
 
-# C extensions
-*.so
+inputfile='C:/Users/fruti/Documents/Python/Datas/seq.txt'
+f= open(inputfile,'r')
+seq=f.read()
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+seq=seq.replace('\n','')
+seq=seq.replace('\r','')
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+print(len(seq))   # 2744/3 is not divisible by 3
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+seq=seq[320:1577]
+print('len=',len(seq))
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+# Site: https://www.ncbi.nlm.nih.gov/nuccore/XM_011242420.3?report=genbank. 
+# Select as codon[1:3]
 
-# Translations
-*.mo
-*.pot
+codon= 'MSGDVADSTDTRSTFGQVEPGNDRNGLDFNRQIKTEDLGDSLQQ\
+TLSHRPCHLSQGPTMMPGNQMSGDMASLHPLQQLVLVPGHLQSVSQFLLSQTPPGQQG\
+LQPNLLSFPQQQSTLLLPQTGPGLASQAVGRPGLSGSSLEPHLDAPQHLPGPKHLPGP\
+GGNDEPTDLEELEKFAKTFKQRRIKLGFTQGDVGLAMGKLYGNDFSQTTISRFEALNL\
+SFKNMCKLKPLLEKWLNDAESSPSDPSASTPSSYPTLSEVFGRKRKKRTSIETNIRLT\
+LEKRFQDNPKPSSEEISMIAEQLSMEKEVVRVWFCNRRQKEKRINCPVATPVKPPIYN\
+SRLVSPSGSLGPLSVPPVHSTMPGTVTSSCSPGNNSRPSSPGSGLHASSPTASQNNSK\
+AAMNSSSSSSFNSSGSWYRWNHPTYLH'
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+def translate(seq):
+    table = {
+     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
+     'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
+     'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
+     'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',
+     'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
+     'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
+     'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
+     'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
+     'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
+     'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
+     'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
+     'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
+     'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
+     'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
+     'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
+     'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
 
-# Flask stuff:
-instance/
-.webassets-cache
+    protein=''
+    if len(seq)%3==0:    #se o comprimento eh divisivel por 3, onde o resto eh 0
+        for i in range(0,len(seq),3):
+            codon=seq[i:i+3]
+            protein += table[codon]
+    return protein
+    
+# Somente uns testes
+# translate('ATA') # I
+# translate('CCT') # P
+# translate('GAT') # D
+# translate('TAA') # -
+# translate('ATACCTGATTAA')
+    
+newseq= translate(seq)
 
-# Scrapy stuff:
-.scrapy
+print(newseq==codon) #lembre-se a posicao 320 onde comeca a leitura eh a 321 em Python pois, comeca em 0
 
-# Sphinx documentation
-docs/_build/
+# --------------------------------------------------------------------------------------------------
+# blood
+# https://www.ncbi.nlm.nih.gov/nuccore/NM_138618.6
+#  CDS  150..1214
 
-# PyBuilder
-target/
+inputfile='C:/Users/fruti/Documents/Python/Datas/seqblood.txt'
+f= open(inputfile,'r')
+seq=f.read()
 
-# Jupyter Notebook
-.ipynb_checkpoints
+seq=seq.replace('\n','')
+seq=seq.replace('\r','')
 
-# IPython
-profile_default/
-ipython_config.py
+print(len(seq))   # 2744/3 is not divisible by 3
 
-# pyenv
-.python-version
+seq=seq[149:1211]
+print('len=',len(seq))
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+codon='MSSKYPRSVRRCLPLWALTLEAALILLFYFFTHYDASLEDQKGL\
+VASYQVGQDLTVMAALGLGFLTSNFRRHSWSSVAFNLFMLALGVQWAILLDGFLSQFP\
+PGKVVITLFSIRLATMSAMSVLISAGAVLGKVNLAQLVVMVLVEVTALGTLRMVISNI\
+FNTDYHMNLRHFYVFAAYFGLTVAWCLPKPLPKGTEDNDQRATIPSLSAMLGALFLWM\
+FWPSVNSALLRSPIQRKNAMFNTYYALAVSVVTAISGSSLAHPQRKISMTYVHSAVLA\
+GGVAVGTSCHLIPSPWLAMVLGLVAGLISIGGAKCLPDWLPGPPQHWGTQLGHRDSSH\
+VWSPDRFAPKSQNMESTSCG'
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+def translate(seq):
+    table = {
+     'ATA':'I', 'ATC':'I', 'ATT':'I', 'ATG':'M',
+     'ACA':'T', 'ACC':'T', 'ACG':'T', 'ACT':'T',
+     'AAC':'N', 'AAT':'N', 'AAA':'K', 'AAG':'K',
+     'AGC':'S', 'AGT':'S', 'AGA':'R', 'AGG':'R',
+     'CTA':'L', 'CTC':'L', 'CTG':'L', 'CTT':'L',
+     'CCA':'P', 'CCC':'P', 'CCG':'P', 'CCT':'P',
+     'CAC':'H', 'CAT':'H', 'CAA':'Q', 'CAG':'Q',
+     'CGA':'R', 'CGC':'R', 'CGG':'R', 'CGT':'R',
+     'GTA':'V', 'GTC':'V', 'GTG':'V', 'GTT':'V',
+     'GCA':'A', 'GCC':'A', 'GCG':'A', 'GCT':'A',
+     'GAC':'D', 'GAT':'D', 'GAA':'E', 'GAG':'E',
+     'GGA':'G', 'GGC':'G', 'GGG':'G', 'GGT':'G',
+     'TCA':'S', 'TCC':'S', 'TCG':'S', 'TCT':'S',
+     'TTC':'F', 'TTT':'F', 'TTA':'L', 'TTG':'L',
+     'TAC':'Y', 'TAT':'Y', 'TAA':'_', 'TAG':'_',
+     'TGC':'C', 'TGT':'C', 'TGA':'_', 'TGG':'W'}
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+    protein=''
+    if len(seq)%3==0:    # if the length is divisible by 3, where the rest is 0
+        for i in range(0,len(seq),3):
+            codon=seq[i:i+3]
+            protein += table[codon]
+    return protein
+    
+# Test
+# translate('ATA') # I
+# translate('CCT') # P
+# translate('GAT') # D
+# translate('TAA') # -
+# translate('ATACCTGATTAA')
+    
+newseq= translate(seq)
 
-# SageMath parsed files
-*.sage.py
+print(newseq==codon) # remember position 320 where you start reading is 321 in Python because it starts at 0
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
